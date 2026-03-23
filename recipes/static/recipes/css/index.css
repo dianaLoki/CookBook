@@ -1,0 +1,58 @@
+/* ========== ГЛАВНАЯ СТРАНИЦА ========== */
+.welcome-section {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0 1rem;
+}
+
+.welcome-section h2 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #1e2b36;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #2c4c5c, #4a6e7e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.welcome-section p {
+    font-size: 1.2rem;
+    color: #5f7e8c;
+    font-weight: 350;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h3 {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #2c4c5c;
+    letter-spacing: -0.3px;
+    position: relative;
+    padding-left: 1rem;
+    border-left: 4px solid #ffb347;
+}
+
+.view-all-link {
+    color: #5f7e8c;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.4rem 1.2rem;
+    border-radius: 30px;
+    background: #f0f6fa;
+    transition: all 0.2s;
+}
+
+.view-all-link:hover {
+    background: #d0dfe8;
+    color: #1e2b36;
+}

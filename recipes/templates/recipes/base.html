@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CookBook{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1><a href="{% url 'recipes:index' %}">🍳 CookBook</a></h1>
+
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'recipes:index' %}">Главная</a></li>
+                        <li><a href="{% url 'recipes:recipe_list' %}">Рецепты</a></li>
+
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'recipes:favorites' %}">Избранное</a></li>
+                            <li><a href="{% url 'recipes:add_recipe' %}">+ Добавить рецепт</a></li>
+                            <li><a href="{% url 'users:profile' user.username %}">{{ user.username }}</a></li>
+                            <li>
+                                <form method="post" action="{% url 'users:logout' %}" class="logout-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-button">Выйти</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'users:login' %}">Войти</a></li>
+                            <li><a href="{% url 'users:registration' %}">Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="message message-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>🍽️ CookBook — твоя кулинарная книга &copy; 2025</p>
+        </div>
+    </footer>
+</body>
+</html>

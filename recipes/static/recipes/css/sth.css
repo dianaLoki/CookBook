@@ -1,0 +1,49 @@
+/* ========== СТРАНИЦА РЕЦЕПТА ========== */
+.recipe-hero {
+    background: linear-gradient(135deg, #f9fbfc, #f0f6fa);
+    border-radius: 32px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    border: 1px solid #e3ecf2;
+}
+
+.recipe-title {
+    font-size: 2.6rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #1e2b36;
+    position: relative;
+    display: inline-block;
+}
+
+.recipe-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffb347, #ff9f1c);
+    border-radius: 3px;
+}
+
+.recipe-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin: 1.5rem 0 0;
+}
+
+.recipe-meta-item {
+    background: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid #d0dfe8;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2c4c5c;
+    font-size: 0.95rem;
+}

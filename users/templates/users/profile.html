@@ -1,0 +1,64 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
+{% endblock %}
+
+{% block title %}{{ profile_user.username }} - Профиль{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Шапка профиля -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <!-- Заглушка для аватара (потом заменим на настоящий) -->
+            <div class="avatar-placeholder">
+                {{ profile_user.username|first|upper }}
+            </div>
+        </div>
+        <div class="profile-info">
+            <h1 class="profile-username">{{ profile_user.username }}</h1>
+            <p class="profile-meta">
+                <span>📅 Присоединился: {{ join_date }}</span>
+                <span>📝 Рецептов: {{ recipes_count }}</span>
+            </p>
+            {% if user == profile_user %}
+                <a href="#" class="button button-small">✏️ Редактировать профиль</a>
+            {% endif %}
+            {% if user == profile_user %}
+                <div style="margin-top: 1rem;">
+                    <a href="{% url 'users:password_change' %}" class="button button-outline button-small">🔑 Сменить пароль</a>
+                </div>
+{% endif %}
+        </div>
+    </div>
+
+    <!-- Рецепты пользователя -->
+    <div class="profile-recipes">
+        <div class="section-header">
+            <h2>Рецепты {{ profile_user.username }}</h2>
+        </div>
+
+        {% if recipes %}
+            <div class="recipes-grid">
+                {% for recipe in recipes %}
+                    <div class="recipe-card">
+                        <span class="recipe-category">{{ recipe.category.name }}</span>
+                        <h3><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h3>
+                        <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
+                        <div class="recipe-footer">
+                            <span class="recipe-time">{{ recipe.duration }} мин</span>
+                            <span class="recipe-author">{{ recipe.author.username }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">У пользователя пока нет рецептов.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

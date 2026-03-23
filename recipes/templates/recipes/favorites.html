@@ -1,0 +1,51 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'recipes/css/favorites.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/recipes_cards.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/recipes_names.css' %}">
+{% endblock %}
+
+{% block title %}Избранное - CookBook{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>⭐ Избранные рецепты</h2>
+        <span class="favorites-count">{{ favorites_count }} {{ favorites_count|pluralize:"рецепт,рецептов" }}</span>
+    </div>
+
+    {% if favorites %}
+        <div class="recipes-grid">
+            {% for favorite in favorites %}
+                <div class="recipe-card">
+                    <span class="recipe-category">{{ favorite.recipe.category.name }}</span>
+                    <h3><a href="{% url 'recipes:recipe_detail' favorite.recipe.id %}">{{ favorite.recipe.name }}</a></h3>
+                    <p class="recipe-description">{{ favorite.recipe.description|truncatechars:100 }}</p>
+                    <div class="recipe-footer">
+                        <span class="recipe-time">{{ favorite.recipe.duration }} мин</span>
+                        <span class="recipe-author">{{ favorite.recipe.author.username }}</span>
+                    </div>
+                    
+                    <!-- Кнопка удаления из избранного -->
+                    <div class="favorite-remove">
+                        <form method="post" action="{% url 'recipes:toggle_favorite' favorite.recipe.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="remove-favorite-btn" title="Удалить из избранного">
+                                <span class="remove-icon">✕</span> Удалить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-favorites">
+            <div class="empty-state">
+                <h3>У вас пока нет избранных рецептов</h3>
+                <p>Добавляйте рецепты в избранное, чтобы они всегда были под рукой</p>
+                <a href="{% url 'recipes:recipe_list' %}" class="button">Перейти к рецептам</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "recipes/base.html" %}
+{% load static %}
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
+{% endblock %}
+
+{% block title %}Вход - CookBook{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Добро пожаловать!</h2>
+        <p class="auth-subtitle">Войдите в свой аккаунт</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="error-message">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="auth-footer">
+                    
+                </div>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="button auth-button">Войти</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>
+                <a href="{% url 'users:password_change' %}">Забыли пароль?</a>
+            </p>
+            <p>
+                Еще нет аккаунта? <a href="{% url 'users:registration' %}">Зарегистрироваться</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

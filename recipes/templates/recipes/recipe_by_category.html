@@ -1,0 +1,33 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - CookBook{% endblock %}
+
+{% block content %}
+    <h2>{{ category.name }}</h2>
+    {% if category.description %}
+        <p>{{ category.description }}</p>
+    {% endif %}
+
+    <h3>Рецепты в этой категории</h3>
+
+    {% if recipes %}
+        <ul>
+            {% for recipe in recipes %}
+                <li>
+                    <a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+                    <br>
+                    <small>
+                        {{ recipe.duration }} мин |
+                        Сложность: {{ recipe.get_complexity_display }} |
+                        Автор: {{ recipe.author.username }}
+                    </small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>В этой категории пока нет рецептов.</p>
+    {% endif %}
+
+    <p><a href="{% url 'recipes:recipe_list' %}">← Все рецепты</a></p>
+{% endblock %}

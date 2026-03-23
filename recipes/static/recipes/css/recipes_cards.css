@@ -1,0 +1,107 @@
+/* ========== КАРТОЧКИ РЕЦЕПТОВ ========== */
+.recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.8rem;
+    margin-top: 0.5rem;
+}
+
+.recipe-card {
+    background: white;
+    border-radius: 24px;
+    padding: 1.8rem;
+    transition: all 0.3s cubic-bezier(0.02, 0.01, 0.05, 1);
+    box-shadow: 0 8px 25px -12px rgba(44, 76, 92, 0.08);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(208, 223, 232, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.recipe-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(135deg, #ffb347, #ff9f1c);
+    opacity: 0.7;
+}
+
+.recipe-card:nth-child(2)::before {
+    background: linear-gradient(135deg, #6b9eb3, #4a7a8c);
+}
+
+.recipe-card:nth-child(3)::before {
+    background: linear-gradient(135deg, #a3c1ad, #7fa08b);
+}
+
+.recipe-card:nth-child(4)::before {
+    background: linear-gradient(135deg, #e8b4b4, #d49494);
+}
+
+.recipe-card:nth-child(5)::before {
+    background: linear-gradient(135deg, #b8a9c9, #9b87b3);
+}
+
+.recipe-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px -14px rgba(44, 76, 92, 0.15);
+    border-color: rgba(208, 223, 232, 0.8);
+}
+
+.recipe-category {
+    display: inline-block;
+    padding: 0.25rem 0.8rem;
+    background: #f0f6fa;
+    color: #4a6e7e;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    align-self: flex-start;
+    border: 1px solid #d0dfe8;
+}
+
+
+/* ========== ЦВЕТНЫЕ АКЦЕНТЫ ДЛЯ КАРТОЧЕК ========== */
+.category-badge {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: #fff5e6;
+    color: #cc7f2a;
+    border: 1px solid #ffe0b3;
+}
+
+.category-badge.breakfast {
+    background: #fff5e6;
+    color: #cc7f2a;
+    border-color: #ffe0b3;
+}
+
+.category-badge.lunch {
+    background: #e8f0f5;
+    color: #3a6e8c;
+    border-color: #cde0e8;
+}
+
+.category-badge.dinner {
+    background: #f0eaf0;
+    color: #6b4e71;
+    border-color: #e1d5e2;
+}
+
+.category-badge.dessert {
+    background: #fef0e6;
+    color: #b8654b;
+    border-color: #ffe0cc;
+}

@@ -1,0 +1,111 @@
+/* ========== ФОРМЫ ========== */
+.form-container {
+    max-width: 700px;
+    margin: 2rem auto;
+}
+
+.recipe-form {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 28px;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 8px 25px -12px rgba(44, 76, 92, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c4c5c;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid #e0e9f0;
+    border-radius: 16px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: #fafcfd;
+    color: #1e2b36;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #ffb347;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 180, 71, 0.1);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.help-text {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #7a9baa;
+    font-style: italic;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eef2f6;
+}
+
+.form-actions .button {
+    flex: 1;
+    text-align: center;
+}
+
+.form-actions .button-outline {
+    flex: 0 0 auto;
+}
+
+/* Стили для полей с ошибками */
+.form-group.has-error input,
+.form-group.has-error textarea,
+.form-group.has-error select {
+    border-color: #d44c4c;
+    background: #fef5f5;
+}
+
+/* Стили для полей под загрузку файлов */
+.form-group input[type="file"] {
+    padding: 0.5rem;
+    background: #f5f9fc;
+    border-style: dashed;
+}
+
+.form-group input[type="file"]:hover {
+    background: #eef4f9;
+    border-color: #ffb347;
+}
+
+/* ========== ОШИБКИ ФОРМ ========== */
+.error-message {
+    margin-top: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: #fef5f5;
+    border: 1px solid #ffcdcd;
+    border-radius: 12px;
+    color: #d44c4c;
+    font-size: 0.85rem;
+}

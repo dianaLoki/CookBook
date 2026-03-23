@@ -1,0 +1,204 @@
+/* ========== ДЕТАЛЬНАЯ СТРАНИЦА РЕЦЕПТА ========== */
+.recipe-detail {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Герой-секция */
+.recipe-hero {
+    background: linear-gradient(135deg, #ffffff, #f9fbfc);
+    border-radius: 32px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 8px 25px -12px rgba(44, 76, 92, 0.1);
+}
+
+.recipe-title {
+    font-size: 2.8rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #1e2b36;
+    position: relative;
+    display: inline-block;
+}
+
+.recipe-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #ffb347, #ff9f1c);
+    border-radius: 4px;
+}
+
+/* Мета-информация */
+.recipe-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.recipe-meta-item {
+    background: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid #e0e9f0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2c4c5c;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.recipe-meta-item:hover {
+    border-color: #ffb347;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -8px rgba(255, 180, 71, 0.2);
+}
+
+.meta-icon {
+    font-size: 1.1rem;
+}
+
+.meta-text {
+    font-weight: 450;
+}
+
+/* Секции рецепта */
+.recipe-section {
+    background: white;
+    border-radius: 28px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 4px 16px -8px rgba(0,0,0,0.02);
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #1e2b36;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 2px solid #f0f6fa;
+    padding-bottom: 0.8rem;
+}
+
+.section-title::after {
+    display: none;
+}
+
+/* Описание */
+.recipe-description-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2c4c5c;
+    background: #f9fbfc;
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid #eef2f6;
+}
+
+/* Шаги приготовления */
+.steps-container {
+    background: #f9fbfc;
+    padding: 2rem;
+    border-radius: 24px;
+    border: 1px solid #eef2f6;
+    line-height: 1.8;
+    color: #2c4c5c;
+}
+
+.steps-container p {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.steps-container p::before {
+    content: '•';
+    color: #ff9f1c;
+    font-weight: bold;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -0.2rem;
+}
+
+/* Действия для автора */
+.recipe-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 3rem 0 2rem;
+    padding: 2rem;
+    background: #f9fbfc;
+    border-radius: 32px;
+    border: 1px solid #eef2f6;
+}
+
+.recipe-actions .button {
+    min-width: 200px;
+    text-align: center;
+}
+
+/* Навигация назад */
+.back-navigation {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #5f7e8c;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    background: white;
+    border: 1px solid #eef2f6;
+}
+
+.back-link:hover {
+    color: #ff9f1c;
+    gap: 1rem;
+    border-color: #ffb347;
+}
+
+/* Адаптивность */
+@media (max-width: 700px) {
+    .recipe-hero {
+        padding: 1.8rem;
+    }
+
+    .recipe-title {
+        font-size: 2rem;
+    }
+
+    .recipe-section {
+        padding: 1.5rem;
+    }
+
+    .recipe-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .recipe-actions .button {
+        width: 100%;
+    }
+}

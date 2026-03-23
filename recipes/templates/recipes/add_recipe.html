@@ -1,0 +1,43 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/forms.css' %}">
+{% endblock %}
+
+{% block title %}Добавить рецепт - CookBook{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>Добавить новый рецепт</h2>
+    </div>
+
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data" class="recipe-form">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="error-message">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <button type="submit" class="button">💾 Сохранить рецепт</button>
+                <a href="{% url 'recipes:recipe_list' %}" class="button button-outline">← Отмена</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

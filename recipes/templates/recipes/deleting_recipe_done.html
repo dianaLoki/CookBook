@@ -1,0 +1,18 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Удалить рецепт?</h2>
+        <p>Вы уверены, что хотите удалить рецепт "{{ object.name }}"?</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="button">🗑️ Да, удалить</button>
+                <a href="{% url 'recipes:recipe_detail' object.pk %}" class="button button-outline">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

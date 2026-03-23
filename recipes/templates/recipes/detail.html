@@ -1,0 +1,209 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'recipes/css/detail.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/rating.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/comments.css' %}">
+{% endblock %}
+
+{% block title %}{{ recipe.name }} - CookBook{% endblock %}
+
+{% block content %}
+    <article class="recipe-detail">
+        <!-- Герой-секция с названием -->
+        <div class="recipe-hero">
+            <h1 class="recipe-title">{{ recipe.name }}</h1>
+
+            <div class="recipe-meta-grid">
+                <span class="recipe-meta-item">
+                    <span class="meta-icon">📖</span>
+                    <span class="meta-text">{{ recipe.category.name }}</span>
+                </span>
+                <span class="recipe-meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span class="meta-text">{{ recipe.duration }} мин</span>
+                </span>
+                <span class="recipe-meta-item">
+                    <span class="meta-icon">📊</span>
+                    <span class="meta-text">{{ recipe.get_complexity_display }}</span>
+                </span>
+                <span class="recipe-meta-item">
+                    <span class="meta-icon">🍽️</span>
+                    <span class="meta-text">{{ recipe.servings }} порций</span>
+                </span>
+                <span class="recipe-meta-item">
+                    <span class="meta-icon">👩‍🍳</span>
+                    <span class="meta-text">{{ recipe.author.username }}</span>
+                </span>
+                <span class="recipe-meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span class="meta-text">{{ recipe.date|date:"d.m.Y" }}</span>
+                </span>
+                <!-- Рейтинг -->
+                <span class="recipe-meta-item rating-item">
+                    <span class="meta-icon">⭐</span>
+                    <span class="meta-text">
+                        {% if avg_rating > 0 %}
+                            {{ avg_rating }} ({{ ratings_count }})
+                        {% else %}
+                            Нет оценок
+                        {% endif %}
+                    </span>
+                </span>
+            </div>
+
+            <!-- Кнопка избранного -->
+            {% if user.is_authenticated %}
+                <div class="favorite-wrapper">
+                    <form method="post" action="{% url 'recipes:toggle_favorite' recipe.id %}">
+                        {% csrf_token %}
+                        {% if is_favorite %}
+                            <button type="submit" class="favorite-btn active">
+                                <span class="favorite-icon">★</span> В избранном
+                            </button>
+                        {% else %}
+                            <button type="submit" class="favorite-btn">
+                                <span class="favorite-icon">☆</span> В избранное
+                            </button>
+                        {% endif %}
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Описание -->
+        {% if recipe.description %}
+            <div class="recipe-section">
+                <h2 class="section-title">📝 Описание</h2>
+                <div class="recipe-description-text">
+                    {{ recipe.description|linebreaks }}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="recipe-section">
+            <h2 class="section-title">🥦 Ингредиенты</h2>
+            {% if recipe.ingredients %}
+            <div class="steps-container">
+                    {{ recipe.ingredients|linebreaks }}
+                </div>
+            {% else %}
+                <p class="empty-message">Ингредиенты не указаны.</p>
+            {% endif %}
+        </div>
+
+        <!-- Шаги приготовления -->
+        <div class="recipe-section">
+            <h2 class="section-title">👨‍🍳 Приготовление</h2>
+            {% if recipe.steps %}
+                <div class="steps-container">
+                    {{ recipe.steps|linebreaks }}
+                </div>
+            {% else %}
+                <p class="empty-message">Шаги приготовления не указаны.</p>
+            {% endif %}
+        </div>
+
+        <!-- Действия для автора -->
+        {% if user == recipe.author %}
+            <div class="recipe-actions">
+                <a href="{% url 'recipes:recipe_edit' recipe.pk %}" class="button">✏️ Редактировать рецепт</a>
+                <form method="post" action="{% url 'recipes:recipe_delete' recipe.pk %}" style="display: inline;" onsubmit="return confirm('Точно удалить рецепт? Это действие нельзя отменить.');">
+                    {% csrf_token %}
+                    <button type="submit" class="button button-outline">🗑️ Удалить рецепт</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <!-- ========== КОММЕНТАРИИ И ОЦЕНКИ ========== -->
+        <div class="recipe-section comments-section">
+            <h2 class="section-title">💬 Комментарии ({{ comments|length }})</h2>
+
+            <!-- Блок для оценки (упрощенный) -->
+            <div class="rating-section">
+                <div class="rating-summary">
+                    <span class="stars">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= avg_rating|floatformat:0 %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                    <span class="rating-info">
+                        {{ avg_rating }} · {{ ratings_count }} {{ ratings_count|pluralize:"оценка,оценок" }}
+                    </span>
+                </div>
+
+                {% if user.is_authenticated %}
+                    <div class="user-rating-simple">
+                        {% if user_rating %}
+                            <span class="your-rating">Ваша оценка: {{ user_rating }} ★</span>
+                            <form method="post" action="{% url 'recipes:rate_recipe' recipe.id %}" class="inline-form">
+                                {% csrf_token %}
+                                <button type="submit" name="rating" value="{{ user_rating }}" class="text-button">изменить</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'recipes:rate_recipe' recipe.id %}" class="rating-form-simple">
+                                {% csrf_token %}
+                                <span class="rate-label">Оценить:</span>
+                                <div class="simple-rating">
+                                    {% for i in "12345"|make_list %}
+                                        <button type="submit" name="rating" value="{{ forloop.counter }}" class="simple-rating-btn">
+                                            {{ forloop.counter }}
+                                        </button>
+                                    {% endfor %}
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p class="rating-login-simple">
+                        <a href="{% url 'users:login' %}">Войдите</a>, чтобы оценить
+                    </p>
+                {% endif %}
+            </div>
+
+            <!-- Список комментариев -->
+            {% if comments %}
+                <div class="comments-list">
+                    {% for comment in comments %}
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author">{{ comment.user.username }}</span>
+                                <span class="comment-date">{{ comment.date|date:"d.m.Y H:i" }}</span>
+                            </div>
+                            <div class="comment-text">
+                                {{ comment.text|linebreaks }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty-message">Пока нет комментариев. Будьте первым!</p>
+            {% endif %}
+
+            <!-- Форма для нового комментария -->
+            {% if user.is_authenticated %}
+                <div class="comment-form-container">
+                    <h3>Оставить комментарий</h3>
+                    <form method="post" action="{% url 'recipes:add_comment' recipe.id %}" class="comment-form">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="button">Отправить</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="comment-login-prompt">
+                    <p><a href="{% url 'users:login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Навигация назад -->
+        <div class="back-navigation">
+            <a href="{% url 'recipes:recipe_list' %}" class="back-link">← Все рецепты</a>
+        </div>
+    </article>
+{% endblock %}
