@@ -4,8 +4,13 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 from recipes.forms import Recipe
-from django.contrib.auth.mixins import LoginRequiredMixin
+from users.models import Profile
 from django.shortcuts import get_object_or_404
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import UserUpdateForm, ProfileUpdateForm
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -20,6 +25,11 @@ class RegisterUser(CreateView):
     template_name = 'users/registration.html'
     extra_context = {'title': 'Регистрация'}
     success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        user = form.save()
+        Profile.objects.create(user=user)  # ← вот так
+        return super().form_valid(form)
 
 class UserPasswordChange(PasswordChangeView):
     form_class = UserPasswordChangeForm
@@ -41,4 +51,30 @@ class ProfileView(LoginRequiredMixin, DetailView):
         context['recipes'] = Recipe.objects.filter(author=self.object)
         context['recipes_count'] = context['recipes'].count()
         context['join_date'] = self.object.date_joined.strftime('%B %Y')
+        context['profile'] = self.object.profile
         return context
+
+
+class ProfileEditView(LoginRequiredMixin, View):
+    def get(self, request):
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+        return render(request, 'users/profile_edit.html', {
+            'u_form': u_form,
+            'p_form': p_form
+        })
+
+    def post(self, request):
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Профиль успешно обновлён!')
+            return redirect('users:profile', username=request.user.username)
+
+        return render(request, 'users/profile_edit.html', {
+            'u_form': u_form,
+            'p_form': p_form
+        })
