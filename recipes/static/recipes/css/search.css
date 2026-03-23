@@ -1,0 +1,54 @@
+/* ========== ПОИСК ========== */
+.search-item {
+    margin-left: 0.5rem;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #eef2f6;
+    border-radius: 50px;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.search-input {
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    width: 150px;
+    outline: none;
+    background: white;
+    color: #1e2b36;
+}
+
+.search-input::placeholder {
+    color: #9bb3bf;
+}
+
+.search-button {
+    background: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: #4a6672;
+    transition: color 0.2s;
+    font-size: 0.9rem;
+}
+
+.search-button:hover {
+    color: #ff9f1c;
+}
+
+/* Адаптивность */
+@media (max-width: 700px) {
+    .search-input {
+        width: 110px;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .search-button {
+        padding: 0.4rem 0.8rem;
+    }
+}

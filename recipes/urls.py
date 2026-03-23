@@ -15,4 +15,5 @@ urlpatterns = [
     path('recipe/<int:recipe_id>/comment/', views.AddCommentView.as_view(), name='add_comment'),
     path('recipe/<int:recipe_id>/rate/', views.RateRecipeView.as_view(), name='rate_recipe'),
     path('recipe/<int:recipe_id>/favorite/', views.ToggleFavoriteView.as_view(), name='toggle_favorite'),
+    path('search/', views.SearchResultsView.as_view(), name='search'),
 ]

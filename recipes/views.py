@@ -5,8 +5,9 @@ from django.urls import reverse_lazy, get_urlconf
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from .models import Recipe, Comment, Rating, Favorite
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.contrib import messages
+
 
 
 class IndexView(ListView):
@@ -178,4 +179,23 @@ class FavoritesListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favorites_count'] = self.get_queryset().count()
+        return context
+
+class SearchResultsView(ListView):
+    model = Recipe
+    template_name = 'recipes/search_results.html'
+    context_object_name = 'recipes'
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '')
+        if query:
+            return Recipe.objects.filter(
+                Q(name__icontains=query) | Q(description__icontains=query)
+            ).order_by('-date')
+        return Recipe.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')
         return context

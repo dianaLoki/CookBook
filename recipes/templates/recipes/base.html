@@ -7,7 +7,9 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
-    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'recipes/css/search.css' %}">
+    {% block extra_css %}
+    {% endblock %}
 </head>
 <body>
     <header>
@@ -19,10 +21,16 @@
                     <ul>
                         <li><a href="{% url 'recipes:index' %}">Главная</a></li>
                         <li><a href="{% url 'recipes:recipe_list' %}">Рецепты</a></li>
+                        <li class="search-item">
+                            <form method="get" action="{% url 'recipes:search' %}" class="search-form">
+                                <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}" class="search-input">
+                                <button type="submit" class="search-button">🔍</button>
+                            </form>
+                        </li>
 
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'recipes:favorites' %}">Избранное</a></li>
-                            <li><a href="{% url 'recipes:add_recipe' %}">+ Добавить рецепт</a></li>
+                            <li><a href="{% url 'recipes:add_recipe' %}">+Рецепт</a></li>
                             <li><a href="{% url 'users:profile' user.username %}">{{ user.username }}</a></li>
                             <li>
                                 <form method="post" action="{% url 'users:logout' %}" class="logout-form">
@@ -62,5 +70,7 @@
             <p>🍽️ CookBook — твоя кулинарная книга &copy; 2025</p>
         </div>
     </footer>
+
+
 </body>
 </html>
