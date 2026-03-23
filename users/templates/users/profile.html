@@ -14,25 +14,32 @@
     <!-- Шапка профиля -->
     <div class="profile-header">
         <div class="profile-avatar">
-            <!-- Заглушка для аватара (потом заменим на настоящий) -->
-            <div class="avatar-placeholder">
-                {{ profile_user.username|first|upper }}
-            </div>
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="Аватар" class="avatar-image">
+            {% else %}
+                <div class="avatar-placeholder">
+                    {{ profile_user.username|first|upper }}
+                </div>
+            {% endif %}
         </div>
         <div class="profile-info">
             <h1 class="profile-username">{{ profile_user.username }}</h1>
+
+            {% if profile.bio %}
+                <p class="profile-bio">{{ profile.bio }}</p>
+            {% endif %}
+
             <p class="profile-meta">
                 <span>📅 Присоединился: {{ join_date }}</span>
                 <span>📝 Рецептов: {{ recipes_count }}</span>
             </p>
+
             {% if user == profile_user %}
-                <a href="{% url 'users:profile_edit' %}" class="button button-small">✏️ Редактировать профиль</a>
-            {% endif %}
-            {% if user == profile_user %}
-                <div style="margin-top: 1rem;">
+                <div class="profile-actions">
+                    <a href="{% url 'users:profile_edit' %}" class="button button-small">✏️ Редактировать профиль</a>
                     <a href="{% url 'users:password_change' %}" class="button button-outline button-small">🔑 Сменить пароль</a>
                 </div>
-{% endif %}
+            {% endif %}
         </div>
     </div>
 
