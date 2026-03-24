@@ -84,7 +84,7 @@ class RecipesListView(ListView):
 
 class UpdateRecipeView(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = ['name', 'description', 'category', 'duration', 'complexity', 'servings', 'steps']
+    fields = ['name', 'description', 'category', 'duration', 'complexity', 'servings', 'ingredients', 'steps', 'image']
     template_name = 'recipes/add_recipe.html'
 
     def get_success_url(self):

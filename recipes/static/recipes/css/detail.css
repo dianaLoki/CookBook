@@ -202,3 +202,16 @@
         width: 100%;
     }
 }
+
+/* ========== ФОТО РЕЦЕПТА ========== */
+.recipe-image-container {
+    margin-bottom: 1.5rem;
+}
+
+.recipe-detail-image {
+    width: 100%;
+    max-height: 380px;  /* было 450px */
+    object-fit: cover;
+    border-radius: 20px;  /* было 24px */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}

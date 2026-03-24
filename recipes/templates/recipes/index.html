@@ -24,13 +24,16 @@
         <div class="recipes-grid">
             {% for recipe in latest_recipes %}
                 <div class="recipe-card">
-                    <span class="recipe-category">{{ recipe.category.name }}</span>
-                    <h4><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h4>
-                    <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
-                    <div class="recipe-footer">
-                        <span class="recipe-time">{{ recipe.duration }} мин</span>
-                        <span class="recipe-author">{{ recipe.author.username }}</span>
-                    </div>
+                {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image">
+                {% endif %}
+                <span class="recipe-category">{{ recipe.category.name }}</span>
+                <h3><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h3>
+                <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
+                <div class="recipe-footer">
+                    <span class="recipe-time">{{ recipe.duration }} мин</span>
+                    <span class="recipe-author">{{ recipe.author.username }}</span>
+                </div>
                 </div>
             {% endfor %}
         </div>

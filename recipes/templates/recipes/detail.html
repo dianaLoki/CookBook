@@ -14,6 +14,13 @@
         <div class="recipe-hero">
             <h1 class="recipe-title">{{ recipe.name }}</h1>
 
+            <!-- Фото рецепта -->
+            {% if recipe.image %}
+                <div class="recipe-image-container">
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-detail-image">
+                </div>
+            {% endif %}
+
             <div class="recipe-meta-grid">
                 <span class="recipe-meta-item">
                     <span class="meta-icon">📖</span>
@@ -81,10 +88,11 @@
             </div>
         {% endif %}
 
+        <!-- Ингредиенты -->
         <div class="recipe-section">
             <h2 class="section-title">🥦 Ингредиенты</h2>
             {% if recipe.ingredients %}
-            <div class="steps-container">
+                <div class="steps-container">
                     {{ recipe.ingredients|linebreaks }}
                 </div>
             {% else %}

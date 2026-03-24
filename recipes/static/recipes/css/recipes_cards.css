@@ -105,3 +105,12 @@
     color: #b8654b;
     border-color: #ffe0cc;
 }
+
+/* ========== ИЗОБРАЖЕНИЯ В КАРТОЧКАХ ========== */
+.recipe-image {
+    width: 100%;
+    height: 150px;  /* было 180px */
+    object-fit: cover;
+    border-radius: 12px;  /* было 16px */
+    margin-bottom: 1rem;
+}
