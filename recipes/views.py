@@ -7,6 +7,8 @@ from django.core.exceptions import PermissionDenied
 from .models import Recipe, Comment, Rating, Favorite
 from django.db.models import Avg, Q
 from django.contrib import messages
+from functools import reduce
+from operator import or_
 
 
 
@@ -190,9 +192,10 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q', '')
         if query:
-            return Recipe.objects.filter(
-                Q(name__icontains=query) | Q(description__icontains=query)
-            ).order_by('-date')
+            variants = [query, query.lower(), query.upper(), query.capitalize()]
+            q_list = [Q(name__contains=v) | Q(description__contains=v) for v in set(variants)]
+            q_objects = reduce(or_, q_list)
+            return Recipe.objects.filter(q_objects).order_by('-date')
         return Recipe.objects.none()
 
     def get_context_data(self, **kwargs):

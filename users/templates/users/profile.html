@@ -4,7 +4,8 @@
 {% block extra_css%}
 <link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
 <link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
-<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/recipes_cards.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/recipes_names.css' %}">
 {% endblock %}
 
 {% block title %}{{ profile_user.username }} - Профиль{% endblock %}
@@ -53,6 +54,9 @@
             <div class="recipes-grid">
                 {% for recipe in recipes %}
                     <div class="recipe-card">
+                        {% if recipe.image %}
+                            <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image">
+                        {% endif %}
                         <span class="recipe-category">{{ recipe.category.name }}</span>
                         <h3><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h3>
                         <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
