@@ -1,52 +1,76 @@
 {% extends 'recipes/base.html' %}
 {% load static %}
-{% block extra_css%}
-<link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
-<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
-<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
-{% endblock %}
 
 {% block title %}Редактирование профиля - CookBook{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'recipes/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="auth-container">
     <div class="auth-card">
         <h2>Редактирование профиля</h2>
-        
+
         <form method="post" enctype="multipart/form-data" class="auth-form">
             {% csrf_token %}
-            
-            {% for field in u_form %}
+
+            <!-- Личные данные -->
+            <div class="form-section">
+                <h3 class="form-section-title">Личные данные</h3>
+
                 <div class="form-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="error-message">
-                            {% for error in field.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
+                    {{ u_form.username.label_tag }}
+                    {{ u_form.username }}
+                    {% if u_form.username.errors %}
+                        <div class="error-message">{{ u_form.username.errors }}</div>
                     {% endif %}
                 </div>
-            {% endfor %}
-            
-            {% for field in p_form %}
+
                 <div class="form-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="error-message">
-                            {% for error in field.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    {% if field.help_text %}
-                        <small class="help-text">{{ field.help_text }}</small>
+                    {{ u_form.email.label_tag }}
+                    {{ u_form.email }}
+                    {% if u_form.email.errors %}
+                        <div class="error-message">{{ u_form.email.errors }}</div>
                     {% endif %}
                 </div>
-            {% endfor %}
+            </div>
+
+            <!-- О себе -->
+            <div class="form-section">
+                <h3 class="form-section-title">О себе</h3>
+
+                <div class="form-group">
+                    {{ p_form.bio.label_tag }}
+                    {{ p_form.bio }}
+                    {% if p_form.bio.errors %}
+                        <div class="error-message">{{ p_form.bio.errors }}</div>
+                    {% endif %}
+                    <small class="help-text">Расскажите немного о себе</small>
+                </div>
+            </div>
+
+            <!-- Аватар -->
+            <div class="form-section">
+                <h3 class="form-section-title">Аватар</h3>
+
+                {% if request.user.profile.avatar %}
+                    <div class="current-avatar">
+                        <p>Текущий аватар:</p>
+                        <img src="{{ request.user.profile.avatar.url }}" alt="Аватар" class="avatar-preview">
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{ p_form.avatar.label_tag }}
+                    {{ p_form.avatar }}
+                    {% if p_form.avatar.errors %}
+                        <div class="error-message">{{ p_form.avatar.errors }}</div>
+                    {% endif %}
+                    <small class="help-text">Рекомендуемый размер: 300x300 пикселей</small>
+                </div>
+            </div>
             
             <div class="form-actions">
                 <button type="submit" class="button">Сохранить изменения</button>

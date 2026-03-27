@@ -181,6 +181,8 @@ class FavoritesListView(LoginRequiredMixin, ListView):
         context['favorites_count'] = self.get_queryset().count()
         return context
 
+from django.shortcuts import redirect
+
 class SearchResultsView(ListView):
     model = Recipe
     template_name = 'recipes/search_results.html'
@@ -188,7 +190,7 @@ class SearchResultsView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        query = self.request.GET.get('q', '')
+        query = self.request.GET.get('q', '').strip()
         if query:
             variants = [query, query.lower(), query.upper(), query.capitalize()]
             q_list = [Q(name__contains=v) | Q(description__contains=v) for v in set(variants)]
@@ -196,7 +198,13 @@ class SearchResultsView(ListView):
             return Recipe.objects.filter(q_objects).order_by('-date')
         return Recipe.objects.none()
 
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q', '').strip()
+        if not query:
+            return redirect('recipes:recipe_list')  # если запрос пустой — редирект на список рецептов
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['query'] = self.request.GET.get('q', '')
+        context['query'] = self.request.GET.get('q', '').strip()
         return context

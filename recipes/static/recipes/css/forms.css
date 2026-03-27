@@ -58,7 +58,7 @@
     display: block;
     margin-top: 0.4rem;
     font-size: 0.8rem;
-    color: #7a9baa;
+    color: #8ba0aa;
     font-style: italic;
 }
 
@@ -108,4 +108,66 @@
     border-radius: 12px;
     color: #d44c4c;
     font-size: 0.85rem;
+}
+
+/* ========== ФОРМА РЕДАКТИРОВАНИЯ ПРОФИЛЯ ========== */
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.form-section-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #1e2b36;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.3px;
+}
+
+/* Аватар */
+.avatar-preview-container {
+    margin-bottom: 1rem;
+}
+
+.current-avatar {
+    margin-bottom: 1rem;
+}
+
+.current-avatar p {
+    font-size: 0.85rem;
+    color: #6b8e9c;
+    margin-bottom: 0.5rem;
+}
+
+.avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #eef2f6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Стили для полей в форме профиля */
+.auth-form input[type="file"] {
+    padding: 0.5rem;
+    background: #f9fbfc;
+    border: 1px dashed #d0dfe8;
+    border-radius: 12px;
+}
+
+.auth-form input[type="file"]:hover {
+    background: #f0f6fa;
+    border-color: #ffb347;
+}
+
+/* ========== ДОПОЛНИТЕЛЬНЫЕ ПРАВКИ ========== */
+.auth-card {
+    max-width: 560px;
 }

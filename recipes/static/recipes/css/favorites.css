@@ -6,6 +6,8 @@
     padding: 0.4rem 1rem;
     border-radius: 30px;
     border: 1px solid #d0dfe8;
+    margin-top: 1rem;
+    /* или используй margin-top, margin-bottom, margin-right */
 }
 
 /* Кнопка удаления из избранного */

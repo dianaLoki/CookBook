@@ -45,6 +45,15 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+        labels = {
+            'email': 'E-mail',
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+            'username': 'Имя пользователя',
+            'bio': 'Описание',
+            'avatar': 'Фото',
+
+        }
 
 
 class ProfileUpdateForm(forms.ModelForm):
