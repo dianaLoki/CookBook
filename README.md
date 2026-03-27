@@ -34,20 +34,20 @@ CookBook — это полнофункциональное веб-приложе
 
 ## Старт
 
-# 1. Клонируй репозиторий
+### 1. Клонируй репозиторий
 git clone https://github.com/dianaLoki/CookBook.git
 cd CookBook
-# 2. Создай виртуальное окружение
+### 2. Создай виртуальное окружение
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
+source venv/bin/activate для Linux/Mac
 или
-venv\Scripts\activate  # Windows
-# 3. Установи зависимости
+venv\Scripts\activate  для Windows
+### 3. Установи зависимости
 pip install -r requirements.txt
-# 4. Примени миграции
+### 4. Примени миграции
 python manage.py migrate
-# 5. Запусти сервер разработки
-# python manage.py runserver
+### 5. Запусти сервер разработки
+ python manage.py runserver
 Открой в браузере: http://127.0.0.1:8000/
 
 ## Структура проекта
