@@ -158,13 +158,11 @@ class ToggleFavoriteView(LoginRequiredMixin, View):
         if favorite:
             favorite.delete()
             messages.info(request, f'Рецепт "{recipe.name}" удален из избранного')
-            return redirect('recipes:favorites')
         else:
             Favorite.objects.create(user=request.user, recipe=recipe)
             messages.success(request, f'Рецепт "{recipe.name}" добавлен в избранное')
-            #return redirect(f'recipes/recipe/{recipe_id}')
-            #return redirect(reverse_lazy(f'recipes: recipe/{recipe_id}'))
-            return redirect(f'recipes:favorites')
+
+        return redirect('recipes:favorites')
 
 class FavoritesListView(LoginRequiredMixin, ListView):
     model = Favorite

@@ -18,29 +18,33 @@
     {% if favorites %}
         <div class="recipes-grid">
             {% for favorite in favorites %}
-    <div class="recipe-card">
-        {% if favorite.recipe.image %}
-            <img src="{{ favorite.recipe.image.url }}" alt="{{ favorite.recipe.name }}" class="recipe-image">
-        {% endif %}
-        <span class="recipe-category">{{ favorite.recipe.category.name }}</span>
-        <h3><a href="{% url 'recipes:recipe_detail' favorite.recipe.id %}">{{ favorite.recipe.name }}</a></h3>
-        <p class="recipe-description">{{ favorite.recipe.description|truncatechars:100 }}</p>
-        <div class="recipe-footer">
-            <span class="recipe-time">{{ favorite.recipe.duration }} мин</span>
-            <span class="recipe-author">{{ favorite.recipe.author.username }}</span>
-        </div>
+                <div class="favorite-item">
+                    <a href="{% url 'recipes:recipe_detail' favorite.recipe.id %}" class="recipe-card-link">
+                        <div class="recipe-card">
+                            {% if favorite.recipe.image %}
+                                <img src="{{ favorite.recipe.image.url }}" alt="{{ favorite.recipe.name }}" class="recipe-image">
+                            {% endif %}
+                            <span class="recipe-category">{{ favorite.recipe.category.name }}</span>
+                            <h3>{{ favorite.recipe.name }}</h3>
+                            <p class="recipe-description">{{ favorite.recipe.description|truncatechars:100 }}</p>
+                            <div class="recipe-footer">
+                                <span class="recipe-time">{{ favorite.recipe.duration }} мин</span>
+                                <span class="recipe-author">{{ favorite.recipe.author.username }}</span>
+                            </div>
+                        </div>
+                    </a>
 
-        <!-- Кнопка удаления из избранного -->
-        <div class="favorite-remove">
-            <form method="post" action="{% url 'recipes:toggle_favorite' favorite.recipe.id %}">
-                {% csrf_token %}
-                <button type="submit" class="remove-favorite-btn" title="Удалить из избранного">
-                    <span class="remove-icon">✕</span> Удалить
-                </button>
-            </form>
-        </div>
-    </div>
-{% endfor %}
+                    <!-- Кнопка удаления из избранного -->
+                    <div class="favorite-remove">
+                        <form method="post" action="{% url 'recipes:toggle_favorite' favorite.recipe.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="remove-favorite-btn" title="Удалить из избранного">
+                                <span class="remove-icon">✕</span> Удалить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     {% else %}
         <div class="empty-favorites">

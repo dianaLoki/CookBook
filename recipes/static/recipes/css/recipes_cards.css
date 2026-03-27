@@ -1,9 +1,10 @@
 /* ========== КАРТОЧКИ РЕЦЕПТОВ ========== */
 .recipes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.8rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
     margin-top: 0.5rem;
+    align-items: stretch;
 }
 
 .recipe-card {
@@ -17,6 +18,7 @@
     border: 1px solid rgba(208, 223, 232, 0.3);
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .recipe-card::before {
@@ -106,11 +108,78 @@
     border-color: #ffe0cc;
 }
 
+
+.recipe-card-link {
+    text-decoration: none;
+    display: block;
+}
+.recipe-card-link:hover .recipe-card {
+    transform: translateY(-4px);
+    transition: all 0.2s;
+}
+
+
 /* ========== ИЗОБРАЖЕНИЯ В КАРТОЧКАХ ========== */
 .recipe-image {
     width: 100%;
-    height: 150px;  /* было 180px */
+    height: 150px;
     object-fit: cover;
-    border-radius: 12px;  /* было 16px */
+    border-radius: 12px;
     margin-bottom: 1rem;
+}
+
+
+/* ========== ОПИСАНИЕ ========== */
+.recipe-description {
+    color: #5f7e8c;
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.recipe-description:hover,
+.recipe-description:focus,
+.recipe-description:active {
+    color: #5f7e8c !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+}
+
+
+/* ========== ФУТЕР КАРТОЧКИ ========== */
+.recipe-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f6fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #6b8e9c;
+    font-size: 0.85rem;
+}
+
+.recipe-time {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.recipe-time::before {
+    content: '⏱️';
+    font-size: 0.9rem;
+}
+
+.recipe-author {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 450;
+}
+
+.recipe-author::before {
+    content: '👩‍🍳';
+    font-size: 0.9rem;
 }

@@ -1,60 +1,60 @@
 {% extends 'recipes/base.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
 
-{% block extra_css %}
+{% block extra_css%}
 <link rel="stylesheet" href="{% static 'recipes/css/recipes_cards.css' %}">
 <link rel="stylesheet" href="{% static 'recipes/css/recipes_names.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/search.css' %}">
 {% endblock %}
-
 
 {% block title %}Поиск: {{ query }} - CookBook{% endblock %}
 
 {% block content %}
-<div class="page-header">
-  <h2>Результаты поиска: {{ query }}</h2>
-
-</div>
-
-{% if recipes %}
-    <p class="search-count">Найдено {{ page_obj.paginator.count }} рецептов</p>
-    
-    <div class="recipes-grid">
-        {% for recipe in recipes %}
-            <div class="recipe-card">
-                <span class="recipe-category">{{ recipe.category.name }}</span>
-                <h3><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h3>
-                {% if recipe.image %}
-                <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image">
-                {% endif %}
-                <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
-                <div class="recipe-footer">
-                    <span class="recipe-time">{{ recipe.duration }} мин</span>
-                    <span class="recipe-author">{{ recipe.author.username }}</span>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="page-header">
+        <h2>Результаты поиска: "{{ query }}"</h2>
     </div>
-    
-    <!-- Пагинация -->
-    {% if page_obj.has_other_pages %}
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-                <a href="?q={{ query }}&page=1">« Первая</a>
-                <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">← Предыдущая</a>
-            {% endif %}
-            
-            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-            
-            {% if page_obj.has_next %}
-                <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">Следующая →</a>
-                <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">Последняя »</a>
-            {% endif %}
+
+    {% if recipes %}
+        <p class="search-count">Найдено {{ page_obj.paginator.count }} рецептов</p>
+
+        <div class="recipes-grid">
+            {% for recipe in recipes %}
+                <a href="{% url 'recipes:recipe_detail' recipe.id %}" class="recipe-card-link">
+                    <div class="recipe-card">
+                        {% if recipe.image %}
+                            <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image">
+                        {% endif %}
+                        <span class="recipe-category">{{ recipe.category.name }}</span>
+                        <h3>{{ recipe.name }}</h3>
+                        <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
+                        <div class="recipe-footer">
+                            <span class="recipe-time">{{ recipe.duration }} мин</span>
+                            <span class="recipe-author">{{ recipe.author.username }}</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
         </div>
+
+        <!-- Пагинация -->
+        {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?q={{ query }}&page=1">« Первая</a>
+                    <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">← Предыдущая</a>
+                {% endif %}
+
+                <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+                {% if page_obj.has_next %}
+                    <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">Следующая →</a>
+                    <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">Последняя »</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    {% else %}
+        <p class="empty-message">Ничего не найдено по запросу "{{ query }}"</p>
+        <p><a href="{% url 'recipes:recipe_list' %}" class="button">Вернуться ко всем рецептам</a></p>
     {% endif %}
-    
-{% else %}
-    <p class="empty-message">Ничего не найдено.</p>
-    <p><a href="{% url 'recipes:recipe_list' %}" class="button">Вернуться ко всем рецептам</a></p>
-{% endif %}
 {% endblock %}

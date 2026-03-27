@@ -30,7 +30,7 @@
 .search-button {
     background: white;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     cursor: pointer;
     color: #4a6672;
     transition: color 0.2s;
@@ -38,7 +38,9 @@
 }
 
 .search-button:hover {
-    color: #ff9f1c;
+    background: #f0f6fa;
+    border-color: #d0dfe8;
+    color: #2c4c5c;
 }
 
 /* Адаптивность */

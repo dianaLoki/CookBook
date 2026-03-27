@@ -5,6 +5,7 @@ app_name = 'recipes'
 
 urlpatterns = [
     path('index', views.IndexView.as_view(), name='index'),
+    path('search/', views.SearchResultsView.as_view(), name='search'),  # ← первым
     path('favorites', views.FavoritesListView.as_view(), name='favorites'),
     path('recipe/<int:recipe_id>/', views.DetailRecipeView.as_view(), name='recipe_detail'),
     path('category/<int:category_id>/', views.recipe_by_category, name='recipe_by_category'),
@@ -15,5 +16,4 @@ urlpatterns = [
     path('recipe/<int:recipe_id>/comment/', views.AddCommentView.as_view(), name='add_comment'),
     path('recipe/<int:recipe_id>/rate/', views.RateRecipeView.as_view(), name='rate_recipe'),
     path('recipe/<int:recipe_id>/favorite/', views.ToggleFavoriteView.as_view(), name='toggle_favorite'),
-    path('search/', views.SearchResultsView.as_view(), name='search'),
 ]

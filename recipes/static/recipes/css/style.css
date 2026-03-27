@@ -1,4 +1,4 @@
-/* ========== ОБНУЛЕНИЕ ========== */
+/* обнуление */
 * {
     margin: 0;
     padding: 0;
@@ -21,7 +21,7 @@ body {
     padding: 0 28px;
 }
 
-/* ========== ШАПКА ========== */
+/* шапка */
 header {
     background: white;
     color: #1e2b36;
@@ -52,7 +52,7 @@ header h1 a:hover {
     opacity: 0.8;
 }
 
-/* МЕНЮ */
+/* меню */
 nav ul {
     list-style: none;
     display: flex;
@@ -86,7 +86,7 @@ nav a:hover {
     color: #2c4c5c;
 }
 
-/* ========== ПОДВАЛ ========== */
+/* Низ страницы */
 footer {
     background: white;
     color: #8ba0aa;
@@ -107,7 +107,7 @@ footer a:hover {
     color: #ff9f1c;
 }
 
-/* ========== КНОПКИ ========== */
+/* кнопки */
 button, .button {
     background: linear-gradient(135deg, #ffb347, #ff9f1c);
     color: white;
@@ -132,6 +132,11 @@ button:hover, .button:hover {
     color: white;
 }
 
+.button-small {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+}
+
 .button-outline {
     background: transparent;
     color: #2c4c5c;
@@ -144,6 +149,31 @@ button:hover, .button:hover {
     border-color: #b6ccd4;
     color: #1e2b36;
     transform: translateY(-2px);
+    box-shadow: none;
+}
+
+.logout-button {
+    background: transparent;
+    color: #4a6672;
+    font-size: 0.9rem;
+    font-weight: 450;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+    display: inline-block;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+    box-shadow: none;
+}
+
+.logout-button:hover {
+    background: #f0f6fa;
+    border-color: #d0dfe8;
+    color: #2c4c5c;
+    transform: none;
     box-shadow: none;
 }
 
