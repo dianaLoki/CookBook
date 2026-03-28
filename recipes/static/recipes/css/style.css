@@ -256,3 +256,36 @@ button:hover, .button:hover {
     }
 }
 
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.pagination a {
+    color: #4a6672;
+    text-decoration: none;
+    padding: 0.4rem 1rem;
+    border: 1px solid #d0dfe8;
+    border-radius: 30px;
+    transition: all 0.2s;
+}
+
+.pagination a:hover {
+    background: #f0f6fa;
+    border-color: #ffb347;
+    color: #ff9f1c;
+}
+
+.pagination span {
+    color: #6b8e9c;
+    padding: 0.4rem 1rem;
+}
+
+.current-page {
+    font-weight: 500;
+}

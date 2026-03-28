@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserUpdateForm, ProfileUpdateForm
+from django.core.paginator import Paginator
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -48,10 +49,18 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recipes'] = Recipe.objects.filter(author=self.object)
-        context['recipes_count'] = context['recipes'].count()
-        context['join_date'] = self.object.date_joined.strftime('%B %Y')
-        context['profile'] = self.object.profile
+        user = self.object
+
+        # Пагинация для рецептов
+        recipes_list = Recipe.objects.filter(author=user).order_by('-date')
+        paginator = Paginator(recipes_list, 12)
+        page_number = self.request.GET.get('page')
+        recipes_page = paginator.get_page(page_number)
+
+        context['recipes'] = recipes_page
+        context['recipes_count'] = recipes_list.count()
+        context['join_date'] = user.date_joined.strftime('%B %Y')
+        context['profile'] = user.profile
         return context
 
 

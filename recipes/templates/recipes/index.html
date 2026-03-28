@@ -39,6 +39,22 @@
                 </a>
             {% endfor %}
         </div>
+<!-- Пагинация -->
+{% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="prev-btn">← Предыдущая</a>
+        {% endif %}
+
+        <span class="current-page">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="next-btn">Следующая →</a>
+        {% endif %}
+    </div>
+{% endif %}
     {% else %}
         <p class="empty-message">Пока нет рецептов. Будь первым!</p>
     {% endif %}

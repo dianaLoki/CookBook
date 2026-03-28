@@ -94,3 +94,27 @@
 .comment-login-prompt a:hover {
     text-decoration: underline;
 }
+
+
+.delete-comment-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.delete-comment-btn {
+    background: none;
+    border: none;
+    color: #b0c4ce;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    transition: color 0.2s;
+    box-shadow: none;
+}
+
+.delete-comment-btn:hover {
+    color: #d44c4c;
+    transform: none;
+    box-shadow: none;
+}

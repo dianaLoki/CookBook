@@ -16,9 +16,10 @@ class IndexView(ListView):
     model = Recipe
     template_name = 'recipes/index.html'
     context_object_name = 'latest_recipes'
+    paginate_by = 6
 
     def get_queryset(self):
-        return Recipe.objects.all().order_by('-date')[:6]
+        return Recipe.objects.all().order_by('-date')
 
 
 class DetailRecipeView(DetailView):
@@ -79,6 +80,7 @@ class RecipesListView(ListView):
     model = Recipe
     template_name = 'recipes/recipe_list.html'
     context_object_name = 'recipes'
+    paginate_by = 10
 
     def get_queryset(self):
         return Recipe.objects.all().order_by('-date')
@@ -168,6 +170,7 @@ class FavoritesListView(LoginRequiredMixin, ListView):
     model = Favorite
     template_name = 'recipes/favorites.html'
     context_object_name = 'favorites'
+    paginate_by = 10
 
     def get_queryset(self):
         return Favorite.objects.filter(
@@ -187,6 +190,7 @@ class SearchResultsView(ListView):
     model = Recipe
     template_name = 'recipes/search_results.html'
     context_object_name = 'recipes'
+    paginate_by = 10
     paginate_by = 10
 
     def get_queryset(self):
@@ -208,3 +212,22 @@ class SearchResultsView(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', '').strip()
         return context
+
+
+class DeleteCommentView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    success_url = reverse_lazy('recipes:index')
+    pk_url_kwarg = 'comment_id'
+
+    def get_success_url(self):
+        return reverse_lazy('recipes:recipe_detail', args=[self.object.recipe.id])
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.user != request.user:
+            raise PermissionDenied("Вы не автор этого комментария")
+        return super().dispatch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Комментарий удалён')
+        return super().delete(request, *args, **kwargs)

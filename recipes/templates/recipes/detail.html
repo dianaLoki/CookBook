@@ -8,6 +8,26 @@
 
 {% block title %}{{ recipe.name }} - CookBook{% endblock %}
 
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.edit-rating-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.cancel-rating-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.edit-rating-form').style.display = 'none';
+                this.closest('.edit-rating-form').previousElementSibling.style.display = 'inline-block';
+            });
+        });
+    });
+</script>
+{% endblock %}
+
 {% block content %}
     <article class="recipe-detail">
         <!-- Герой-секция с названием -->
@@ -146,26 +166,38 @@
 
                 {% if user.is_authenticated %}
                     <div class="user-rating-simple">
-                        {% if user_rating %}
-                            <span class="your-rating">Ваша оценка: {{ user_rating }} ★</span>
-                            <form method="post" action="{% url 'recipes:rate_recipe' recipe.id %}" class="inline-form">
-                                {% csrf_token %}
-                                <button type="submit" name="rating" value="{{ user_rating }}" class="text-button">изменить</button>
-                            </form>
-                        {% else %}
-                            <form method="post" action="{% url 'recipes:rate_recipe' recipe.id %}" class="rating-form-simple">
-                                {% csrf_token %}
-                                <span class="rate-label">Оценить:</span>
-                                <div class="simple-rating">
-                                    {% for i in "12345"|make_list %}
-                                        <button type="submit" name="rating" value="{{ forloop.counter }}" class="simple-rating-btn">
-                                            {{ forloop.counter }}
-                                        </button>
-                                    {% endfor %}
-                                </div>
-                            </form>
-                        {% endif %}
-                    </div>
+    {% if user_rating %}
+        <span class="your-rating">Ваша оценка: {{ user_rating }} ★</span>
+        <button class="text-button edit-rating-btn" data-recipe-id="{{ recipe.id }}">изменить</button>
+
+        <div class="edit-rating-form" style="display: none;">
+            <form method="post" action="{% url 'recipes:rate_recipe' recipe.id %}" class="rating-form-simple inline-form">
+                {% csrf_token %}
+                <span class="rate-label">Новая оценка:</span>
+                <div class="simple-rating">
+                    {% for i in "12345"|make_list %}
+                        <button type="submit" name="rating" value="{{ forloop.counter }}" class="simple-rating-btn">
+                            {{ forloop.counter }}
+                        </button>
+                    {% endfor %}
+                </div>
+            </form>
+            <button class="cancel-rating-btn text-button">отмена</button>
+        </div>
+    {% else %}
+        <form method="post" action="{% url 'recipes:rate_recipe' recipe.id %}" class="rating-form-simple">
+            {% csrf_token %}
+            <span class="rate-label">Оценить:</span>
+            <div class="simple-rating">
+                {% for i in "12345"|make_list %}
+                    <button type="submit" name="rating" value="{{ forloop.counter }}" class="simple-rating-btn">
+                        {{ forloop.counter }}
+                    </button>
+                {% endfor %}
+            </div>
+        </form>
+    {% endif %}
+</div>
                 {% else %}
                     <p class="rating-login-simple">
                         <a href="{% url 'users:login' %}">Войдите</a>, чтобы оценить
@@ -174,23 +206,29 @@
             </div>
 
             <!-- Список комментариев -->
-            {% if comments %}
-                <div class="comments-list">
-                    {% for comment in comments %}
-                        <div class="comment-item">
-                            <div class="comment-header">
-                                <span class="comment-author">{{ comment.user.username }}</span>
-                                <span class="comment-date">{{ comment.date|date:"d.m.Y H:i" }}</span>
-                            </div>
-                            <div class="comment-text">
-                                {{ comment.text|linebreaks }}
-                            </div>
-                        </div>
-                    {% endfor %}
+{% if comments %}
+    <div class="comments-list">
+        {% for comment in comments %}
+            <div class="comment-item">
+                <div class="comment-header">
+                    <span class="comment-author">{{ comment.user.username }}</span>
+                    <span class="comment-date">{{ comment.date|date:"d.m.Y H:i" }}</span>
+                    {% if user == comment.user %}
+                        <form method="post" action="{% url 'recipes:delete_comment' comment.id %}" class="delete-comment-form">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-comment-btn" onclick="return confirm('Удалить комментарий?')">✕</button>
+                        </form>
+                    {% endif %}
                 </div>
-            {% else %}
-                <p class="empty-message">Пока нет комментариев. Будьте первым!</p>
-            {% endif %}
+                <div class="comment-text">
+                    {{ comment.text|linebreaks }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="empty-message">Пока нет комментариев. Будьте первым!</p>
+{% endif %}
 
             <!-- Форма для нового комментария -->
             {% if user.is_authenticated %}
