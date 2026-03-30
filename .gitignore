@@ -26,8 +26,8 @@ media_root/
 .env.production
 
 # Миграции
- */migrations/*.py
- !*/migrations/__init__.py
+*/migrations/*.py
+!*/migrations/__init__.py
 
 # IDE
 .idea/
@@ -39,14 +39,8 @@ media_root/
 *.sublime-project
 *.sublime-workspace
 
-# Project specific
-cookbook_project/__pycache__/
-users/__pycache__/
-recipes/__pycache__/
-
 # OS
 Thumbs.db
-.DS_Store
 Desktop.ini
 
 # Testing
@@ -59,3 +53,8 @@ htmlcov/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Secrets
+.env
+*.env
+*.env.local

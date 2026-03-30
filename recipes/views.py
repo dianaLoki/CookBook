@@ -191,21 +191,19 @@ class SearchResultsView(ListView):
     template_name = 'recipes/search_results.html'
     context_object_name = 'recipes'
     paginate_by = 10
-    paginate_by = 10
 
     def get_queryset(self):
         query = self.request.GET.get('q', '').strip()
         if query:
-            variants = [query, query.lower(), query.upper(), query.capitalize()]
-            q_list = [Q(name__contains=v) | Q(description__contains=v) for v in set(variants)]
-            q_objects = reduce(or_, q_list)
-            return Recipe.objects.filter(q_objects).order_by('-date')
+            return Recipe.objects.filter(
+                Q(name__icontains=query) | Q(description__icontains=query)
+            ).order_by('-date')
         return Recipe.objects.none()
 
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q', '').strip()
         if not query:
-            return redirect('recipes:recipe_list')  # если запрос пустой — редирект на список рецептов
+            return redirect('recipes:recipe_list')
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
