@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordChangeDoneView
-from users.views import LoginView, RegisterUser, LoginUser, ProfileEditView, ProfileView  # Явный импорт конкретных классов
+from users.views import LoginUser, RegisterUser, ProfileEditView, ProfileView
 
 app_name = 'users'
 

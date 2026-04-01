@@ -20,6 +20,22 @@ class Recipe(models.Model):
         ('medium', 'Средний'),
         ('hard', 'Сложный'),
     ]
+
+    STATUS_CHOICES = [
+        ('draft', 'Черновик'),
+        ('moderation', 'На модерации'),
+        ('published', 'Опубликован'),
+        ('rejected', 'Отклонён'),
+    ]
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='draft'
+    )
+
+    moderation_comment = models.TextField(blank=True, help_text="Причина отклонения (для администратора)")
+
     name = models.CharField(max_length=100)
     description = models.TextField()
     steps = models.TextField()
@@ -51,7 +67,7 @@ class Recipe(models.Model):
     image = models.ImageField(
         upload_to='recipes/img/%Y/%m/%d/',
         null=True,
-        blank=True
+        blank=False
     )
 
     class Meta:

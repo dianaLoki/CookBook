@@ -59,7 +59,18 @@
                             <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image">
                         {% endif %}
                         <span class="recipe-category">{{ recipe.category.name }}</span>
-                        <h3><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h3>
+
+                        <div class="recipe-header">
+                            <h3><a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a></h3>
+                            <span class="recipe-status status-{{ recipe.status }}">
+                                {% if recipe.status == 'draft' %}📝 Черновик
+                                {% elif recipe.status == 'moderation' %}⏳ На модерации
+                                {% elif recipe.status == 'published' %}✅ Опубликован
+                                {% elif recipe.status == 'rejected' %}❌ Отклонён
+                                {% endif %}
+                            </span>
+                        </div>
+
                         <p class="recipe-description">{{ recipe.description|truncatechars:100 }}</p>
                         <div class="recipe-footer">
                             <span class="recipe-time">{{ recipe.duration }} мин</span>
@@ -68,20 +79,21 @@
                     </div>
                 {% endfor %}
             </div>
-        <!-- Пагинация в профиле -->
-{% if recipes.has_other_pages %}
-    <div class="pagination">
-        {% if recipes.has_previous %}
-            <a href="?page={{ recipes.previous_page_number }}">← Предыдущая</a>
-        {% endif %}
 
-        <span>Страница {{ recipes.number }} из {{ recipes.paginator.num_pages }}</span>
+            <!-- Пагинация в профиле -->
+            {% if recipes.has_other_pages %}
+                <div class="pagination">
+                    {% if recipes.has_previous %}
+                        <a href="?page={{ recipes.previous_page_number }}">← Предыдущая</a>
+                    {% endif %}
 
-        {% if recipes.has_next %}
-            <a href="?page={{ recipes.next_page_number }}">Следующая →</a>
-        {% endif %}
-    </div>
-{% endif %}
+                    <span>Страница {{ recipes.number }} из {{ recipes.paginator.num_pages }}</span>
+
+                    {% if recipes.has_next %}
+                        <a href="?page={{ recipes.next_page_number }}">Следующая →</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% else %}
             <p class="empty-message">У пользователя пока нет рецептов.</p>
         {% endif %}

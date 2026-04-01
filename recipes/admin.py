@@ -5,18 +5,20 @@ from .models import Recipe, Category, Comment, Rating
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'author', 'duration', 'image_preview', 'date']
-    search_fields = ['name', 'description', 'author__username']
-    list_filter = ['category', 'author', 'complexity', 'date', 'duration']
-    list_display_links = ['name']
-    readonly_fields = ['date']
+    list_display = ['name', 'author', 'status', 'date']
+    list_filter = ['status', 'author']
+    search_fields = ['name', 'author__username']
+    actions = ['approve_recipes', 'reject_recipes']
 
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="50" height="50" style="border-radius: 8px;" />', obj.image.url)
-        return 'Нет фото'
+    def approve_recipes(self, request, queryset):
+        queryset.update(status='published')
 
-    image_preview.short_description = 'Фото'
+    approve_recipes.short_description = "Опубликовать выбранные рецепты"
+
+    def reject_recipes(self, request, queryset):
+        queryset.update(status='rejected')
+
+    reject_recipes.short_description = "Отклонить выбранные рецепты"
 
 
 @admin.register(Category)

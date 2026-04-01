@@ -5,10 +5,9 @@ app_name = 'recipes'
 
 urlpatterns = [
     path('index', views.IndexView.as_view(), name='index'),
-    path('search/', views.SearchResultsView.as_view(), name='search'),  # ← первым
+    path('search/', views.SearchResultsView.as_view(), name='search'),
     path('favorites', views.FavoritesListView.as_view(), name='favorites'),
     path('recipe/<int:recipe_id>/', views.DetailRecipeView.as_view(), name='recipe_detail'),
-    path('category/<int:category_id>/', views.recipe_by_category, name='recipe_by_category'),
     path('add_recipe', views.AddRecipe.as_view(), name='add_recipe'),
     path('recipe_list', views.RecipesListView.as_view(), name='recipe_list'),
     path('recipe/<int:pk>/edit/', views.UpdateRecipeView.as_view(), name='recipe_edit'),

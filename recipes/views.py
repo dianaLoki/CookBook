@@ -19,7 +19,7 @@ class IndexView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        return Recipe.objects.all().order_by('-date')
+        return Recipe.objects.filter(status='published').order_by('-date')
 
 
 class DetailRecipeView(DetailView):
@@ -72,9 +72,12 @@ class AddRecipe(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('recipes:index')
 
     def form_valid(self, form):
-        w = form.save(commit= False)
-        w.author = self.request.user
-        return super().form_valid(form)
+        recipe = form.save(commit=False)
+        recipe.author = self.request.user
+        recipe.status = 'moderation'
+        recipe.save()
+        messages.success(self.request, 'Рецепт отправлен на модерацию')
+        return redirect('recipes:index')
 
 class RecipesListView(ListView):
     model = Recipe
@@ -83,7 +86,7 @@ class RecipesListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Recipe.objects.all().order_by('-date')
+        return Recipe.objects.filter(status='published').order_by('-date')
 
 
 class UpdateRecipeView(LoginRequiredMixin, UpdateView):
@@ -93,6 +96,15 @@ class UpdateRecipeView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('recipes:recipe_detail', args=[self.object.id])
+
+    def form_valid(self, form):
+        recipe = form.save(commit=False)
+        if recipe.status == 'published':
+            recipe.status = 'moderation'
+        recipe.save()
+        messages.success(self.request, 'Рецепт обновлён' +
+                         (' и отправлен на повторную модерацию' if recipe.status == 'moderation' else ''))
+        return redirect(self.get_success_url())
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -192,11 +204,12 @@ class SearchResultsView(ListView):
     context_object_name = 'recipes'
     paginate_by = 10
 
+
     def get_queryset(self):
         query = self.request.GET.get('q', '').strip()
         if query:
             return Recipe.objects.filter(
-                Q(name__icontains=query) | Q(description__icontains=query)
+                Q(name__icontains=query) | Q(description__icontains=query), status='published'
             ).order_by('-date')
         return Recipe.objects.none()
 

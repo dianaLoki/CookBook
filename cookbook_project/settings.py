@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'cookbook_project.urls'  #cookbook_project.urls'
+ROOT_URLCONF = 'cookbook_project.urls'
 
 TEMPLATES = [
     {
