@@ -53,8 +53,3 @@ htmlcov/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Secrets
-.env
-*.env
-*.env.local
