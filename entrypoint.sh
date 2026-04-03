@@ -5,4 +5,4 @@ echo "==> Applying database migrations..."
 python manage.py migrate --noinput
 
 echo "==> Starting server..."
-exec "$@"
+exec gunicorn cookbook_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2
