@@ -21,13 +21,15 @@ media/
 staticfiles/
 static_root/
 media_root/
+
+# Секреты — никогда не коммить!
 .env
 .env.local
 .env.production
 
-# Миграции
-*/migrations/*.py
-!*/migrations/__init__.py
+# Миграции — лучше коммитить для продакшена
+# */migrations/*.py
+# !*/migrations/__init__.py
 
 # IDE
 .idea/
