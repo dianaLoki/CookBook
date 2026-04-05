@@ -113,3 +113,5 @@ PASSWORD_CHANGE_DONE_URL = 'users:password_change_done'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
