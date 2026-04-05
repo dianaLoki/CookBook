@@ -15,4 +15,5 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "gunicorn cookbook_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2"]
+RUN ls -la /app/media/recipes/img/2026/03/24/ || echo "Directory not found"
+CMD ["sh", "-c", "gunicorn cookbook_project.wsgi:application --bind 0.0.0.0:8000 --workers 2"]
